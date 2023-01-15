@@ -16,6 +16,6 @@ body,
 
 @layer base {
   button {
-    @apply bg-primary-500 rounded-xl px-10 py-1.5 hover:bg-opacity-50
+    @apply bg-tertiary-500 text-primary-500 rounded-xl px-10 py-1.5 hover:bg-opacity-50
   }
 }
