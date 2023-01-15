@@ -1,7 +1,7 @@
 import React from 'react';
 // import createTodoForm from './components/createTodoForm.jsx';
 
-const TodoApp = () => {
+export  const TodoApp = () => {
   return (
     <div>
       <h1>Project Workspace</h1>
@@ -11,5 +11,3 @@ const TodoApp = () => {
 }
 
 
-
-export default TodoApp;
