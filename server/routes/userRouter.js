@@ -4,25 +4,25 @@ const userController = require('../controllers/usersController');
 
 const router = express.Router();
 
-// router.get('/', (req, res) => {
-//   console.log('made it here')
-//   const text = `INSERT INTO comments(commentBody) VALUES($1) RETURNING *`
-//   const values = ['sdfsadf']
-
-//   // const text = 'SELECT * FROM people'
-
-//   db.query(text, values)
-//     .then((data) => {
-//       console.log(data.rows)
-//       res.json(data.rows)
-//     })
-//     .catch((err) => console.log(err));
-// })
+// GET ALL USERS ROUTE
 router.get('/', userController.getUsers, (req, res, next) => {
-  res.send(200).json(res.locals)
+  res.status(200).json(res.locals.allUsers);
 });
-
-
-
+//GET ONE USER ROUTE
+router.get('/:id', userController.getUser, (req, res, next) => {
+  res.status(200).json(res.locals.oneUser);
+});
+//CREATE ONE USER ROUTE
+router.post('/:id', userController.createUser, (req, res, next) => {
+  res.status(200).json(res.locals.newUser)
+});
+//DELETE ONE USER ROUTE
+router.delete('/:id', userController.deleteUser, (req, res, next) => {
+  res.status(200).json(res.locals)
+});
+//UPDATE ONE USER ROUTE
+router.patch('/:id', userController.updateUser, (req, res, next) => {
+  res.status(200).json(res.locals)
+});
 
 module.exports = router;
