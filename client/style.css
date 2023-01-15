@@ -1,7 +1,21 @@
+@import url('https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;700&family=Montserrat:wght@700&display=swap');
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
 
-/* .app {
-  background-color: blue;
-} */
+html,
+body,
+#root,
+.app {
+  font-family: "DM Sans", sans-serif;
+  color: #303d40;
+  font-weight: bold;
+  background-color: #F6EEE5;
+}
+
+@layer base {
+  button {
+    @apply bg-primary-500 rounded-xl px-10 py-1.5 hover:bg-opacity-50
+  }
+}

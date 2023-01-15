@@ -11,7 +11,7 @@ dotenv.config();
 const app = express();
 
 app.use(express.json());
-app.use(express.urlencoded({ extended:true }));
+app.use(express.urlencoded({ extended: true }));
 app.use('/dist', express.static(path.join(__dirname, '../dist')));
 
 // ROUTE HANDLER
@@ -33,9 +33,9 @@ app.use((err, req, res, next) => {
 
 // client.connect(process.env.PG_URI)
 //   .then(() => {
-  // console.log('starting on port 3000' );
-app.listen(PORT , () => { console.log(`Listening on port ${PORT}...`); }); //log conected to port
-
-
+// console.log('starting on port 3000' );
+app.listen(PORT, () => {
+  console.log(`Listening on port ${PORT}...`);
+}); //log conected to port
 
 module.exports = app;
