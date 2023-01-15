@@ -6,8 +6,25 @@ const router = express.Router();
 
 
 
+// GET ALL USERS ROUTE
 router.get('/', userController.getUsers, (req, res, next) => {
-  res.send(200).json(res.locals)
+  res.status(200).json(res.locals.allUsers);
+});
+//GET ONE USER ROUTE
+router.get('/:id', userController.getUser, (req, res, next) => {
+  res.status(200).json(res.locals.oneUser);
+});
+//CREATE ONE USER ROUTE
+router.post('/:id', userController.createUser, (req, res, next) => {
+  res.status(200).json(res.locals.newUser)
+});
+//DELETE ONE USER ROUTE
+router.delete('/:id', userController.deleteUser, (req, res, next) => {
+  res.status(200).json(res.locals)
+});
+//UPDATE ONE USER ROUTE
+router.patch('/:id', userController.updateUser, (req, res, next) => {
+  res.status(200).json(res.locals)
 });
 
 router.post('/signup', 
