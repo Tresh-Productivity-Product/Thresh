@@ -31,9 +31,7 @@ app.use((err, req, res, next) => {
   return res.status(errorObj.status).json(errorObj.message);
 });
 
-// client.connect(process.env.PG_URI)
-//   .then(() => {
-  // console.log('starting on port 3000' );
+
 app.listen(PORT , () => { console.log(`Listening on port ${PORT}...`); }); //log conected to port
 
 
