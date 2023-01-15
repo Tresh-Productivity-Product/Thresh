@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState } from 'react';
 import signUpRequest from '../api/signUpRequest';
 import { Link, useNavigate } from 'react-router-dom';
 
@@ -17,16 +17,15 @@ export const SignUp = () => {
     e.preventDefault();
     signUpRequest(email, password, firstName, lastName, userRole)
       .then(() => {
-        // navigate to todoapp page if signup was successful
-        navigate('/todoapp');
-        // send error mesasge if signup failed
-      }).catch(err => {
+        navigate('/dashboard');
+      })
+      .catch((err) => {
         setError(err.message);
       });
-  }
+  };
 
   return (
-    <div className='flex flex-col justify-items-center items-center'>
+    <div className='flex flex-col h-screen w-screen items-center justify-center'>
       {/* display error message if error */}
       <div>{error}</div> 
       {/* useState to track the data in each input field */}
@@ -70,5 +69,5 @@ export const SignUp = () => {
           </Link>
         </div>
     </div>
-  )
-}
+  );
+};
