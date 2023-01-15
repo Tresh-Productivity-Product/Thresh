@@ -1,6 +1,49 @@
 const { data } = require('autoprefixer');
 const db = require('../models/db');
 const usersController = {};
+const bcrypt = require('bcrypt')
+const WORKFACTOR = 15;
+
+// EXAMPLE DATA:
+// {
+//     "fistName": "fname",
+//     "lastName": "lname",
+//     "password": "pass123",
+//     "userRole": "role",
+//     "email": "email"
+// }
+
+//CRYPT USER PASSWORD
+usersController.getBcrypt = (req, res, next) => {
+    console.log('req body: ', req.body)
+    //temp
+    const pass = req.body.password;
+    bcrypt.hash(pass, WORKFACTOR)
+        .then(hash => {
+            req.body.password = hash;
+            // console.log(('hash is: ', hash))
+            res.locals.user = req.body;
+            // console.log('response:', res.locals.user);
+            return next();
+        })
+}
+
+//CHECK USER PASSWORD
+usersController.checkPass = (req, res, next) => {
+    //logic to get DB user password by email
+    //store hashed pass in 'hash'
+    // console.log('req body: ', req.body)
+    const pass = req.body.password;
+    const hash = 'db result'
+    bcrypt.compare(pass, pass2)
+        .then(result => {
+            // console.log('result: ', result)
+            res.locals.signin = result; //true if success
+            return next();
+        })
+}
+
+
 
 //GET ALL USERS CONTROLLER
 usersController.getUsers = (req, res, next) => {
@@ -65,6 +108,8 @@ usersController.updateUser = (req,res,next) => {
         return next()
     })
 }
+
+
 
 
 module.exports = usersController;
