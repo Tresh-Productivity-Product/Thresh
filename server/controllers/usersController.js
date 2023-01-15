@@ -1,7 +1,7 @@
 const { data } = require('autoprefixer');
 const db = require('../models/db');
-const bcrypt = require('bcrypt')
 const usersController = {};
+const bcrypt = require('bcrypt')
 const WORKFACTOR = 15;
 
 // EXAMPLE DATA:
@@ -43,22 +43,6 @@ usersController.checkPass = (req, res, next) => {
         })
 }
 
-// usersController.createUser = (req, res, next) => {
-//     // console.log(req.body)
-//     next()
-// }
-
-// const createUser = (req, res) => {
-//   const { firstName, lastName, password, userRole,email, commentId } = request.body
-
-//   pool.query('INSERT INTO users (firstName, lastName, password, userRole, email, commentId) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [firstName, lastName, password, userRole, email, commentId], (error, results) => {
-//     if (error) {
-//       throw error
-//     }
-//     response.status(201).send(`User added with ID: ${results.rows[0].id}`)
-//   })
-// }
-
 
 
 //GET ALL USERS CONTROLLER
@@ -89,11 +73,11 @@ usersController.getUser = (req, res, next) => {
 usersController.createUser = (req,res,next) => {
     console.log(req.body)
      const { _id, firstName, lastName, password, userRole, email } = req.body
-    const text = `INSERT INTO users (_id, firstName, lastName, password, userRole, email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`
+    const text = `INSERT INTO users ( _id, firstName, lastName, password, userRole, email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`
     const values = [ _id, firstName, lastName, password, userRole, email]
     db.query(text, values)
     .then(data => {
-        console.log(data.rows)
+        //console.log(data.rows)
         res.locals.newUser = data.rows
         return next()
     })
@@ -114,9 +98,9 @@ usersController.deleteUser = (req,res,next) => {
 //UPDATE ONE USER CONTROLLER ---> not working yet
 usersController.updateUser = (req,res,next) => {
     console.log(req.body)
-     const { _id, firstName, lastName, password, userRole, email } = req.body
-    const text = `UPDATE users SET _id = $1, firstName = $2, lastName = $3, password = $4, userRole = $5, email=$6`
-    const values = [ _id, firstName, lastName, password, userRole, email]
+     const { firstName, lastName, password, userRole, email } = req.body
+    const text = `UPDATE users SET firstName = $1, lastName = $2, password = $3, userRole = $4, email=$5`
+    const values = [  firstName, lastName, password, userRole, email]
     db.query(text, values)
     .then(data => {
         console.log(data.rows)
@@ -124,6 +108,8 @@ usersController.updateUser = (req,res,next) => {
         return next()
     })
 }
+
+
 
 
 module.exports = usersController;

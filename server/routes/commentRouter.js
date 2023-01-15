@@ -11,6 +11,10 @@ router.get('/', commentsController.getComments, (req, res)  => {
 router.get('/:id', commentsController.getCommentsPerTask, (req, res)  => {
     res.status(200).json(res.locals.specificComment);
 })
+//post a comment
+router.post('/', commentsController.addComment, (req, res)  => {
+    res.status(200).json(res.locals.newComment);
+})
 //delete all comments (may not need)
 router.delete('/:id', commentsController.deleteComments, (req, res)  => {
     res.status(200).json(res.locals.deletedComments);
@@ -20,8 +24,8 @@ router.delete('/:id', commentsController.removeComment, (req, res)  => {
     res.status(200).json(res.locals.deletedTaskComment);
 })
 //update specific comment (not sure if correct)
-router.patch('/:id', commentsController.removeComment, (req, res)  => {
-    res.status(200).json(res.locals.updatedComment);
+router.patch('/:id', commentsController.updateComment, (req, res)  => {
+    res.status(201).json(res.locals.updatedComment);
 })
 module.exports = router;
 
