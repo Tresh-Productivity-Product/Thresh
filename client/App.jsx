@@ -8,22 +8,24 @@ import { TodoApp } from './pages/TodoApp.jsx';
 const App = () => {
   const flexBetween = "flex items-center justify-between";
   return (
-    <div className={`${flexBetween}`}>
+    <div>
       <div className={`${flexBetween}`}>
-        <Link to="/">
-          Home
-        </Link>
-        <Link to="/todoapp">
-          Dashboard
-        </Link>
-      </div>
-      <div className={`${flexBetween}`}>
-        <Link to="/login">
-          Login
-        </Link>
-        <Link to="/signup">
-          Signup
-        </Link>
+        <div className={`${flexBetween}`}>
+          <Link to="/">
+            Home
+          </Link>
+          <Link to="/todoapp">
+            Dashboard
+          </Link>
+        </div>
+        <div className={`${flexBetween}`}>
+          <Link to="/login">
+            Login
+          </Link>
+          <Link to="/signup">
+            Signup
+          </Link>
+        </div>
       </div>
       <Routes>
         <Route path='/' element={<Home />} />
