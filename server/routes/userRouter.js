@@ -27,6 +27,8 @@ router.patch('/:id', userController.updateUser, (req, res, next) => {
   res.status(200).json(res.locals)
 });
 
+
+//CREATE USER ROUTER OPTION - RYLAN
 router.post('/signup', 
   userController.getBcrypt,
   // userController.createUser, 
@@ -35,12 +37,14 @@ router.post('/signup',
     res.status(200).json(res.locals.user);
   })
 
-  router.post('/signin', 
-  userController.checkPass, 
-  (req, res, next) => {
-    console.log(req.body)
-    res.status(200).json(res.locals.signin);
-  })
+
+//SIGN IN ROUTER
+router.post('/signin', 
+userController.checkPass, 
+(req, res, next) => {
+  // console.log(req.body)
+  res.status(200).json(res.locals.signin);
+})
 
 
 
