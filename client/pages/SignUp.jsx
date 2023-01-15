@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import signUpRequest from '../api/signUpRequest';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 
 export const SignUp = () => {
   // useState to update and track the input fields from the signup page
@@ -15,51 +15,60 @@ export const SignUp = () => {
   // handle form submission 
   const handleSignUp = (e) => {
     e.preventDefault();
-    signUpRequest(email, password)
+    signUpRequest(email, password, firstName, lastName, userRole)
       .then(() => {
         // navigate to todoapp page if signup was successful
         navigate('/todoapp');
+        // send error mesasge if signup failed
       }).catch(err => {
         setError(err.message);
       });
   }
 
   return (
-    <div className = 'flex flex-column'>
-      <div style={{color: 'red'}}>{error}</div>
-        <form onSubmit={handleSignUp}>
-          Email: 
+    <div className='flex flex-col justify-items-center items-center'>
+      {/* display error message if error */}
+      <div>{error}</div> 
+      {/* useState to track the data in each input field */}
+        <form className='flex flex-col justify-items-center items-center' onSubmit={handleSignUp}>
           <input
             type='email'
+            placeholder='Email:'
             value={email}
             onChange={(e) => setEmail(e.target.value)}
           />
-          Password: 
           <input
             type='password'
+            placeholder='Password:'
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
-          First Name: 
           <input
             type='text'
+            placeholder='First Name:'
             value={firstName}
             onChange={(e) => setfirstName(e.target.value)}
-          />
-          Last Name: 
+          /> 
           <input
             type='text'
+            placeholder='Last Name:'
             value={lastName}
             onChange={(e) => setlastName(e.target.value)}
           />
-          User Role: 
           <input
             type='text'
+            placeholder='User Role:'
             value={userRole}
             onChange={(e) => setuserRole(e.target.value)}
           />
           <button>Sign Up</button>
         </form>
+        <div>
+          Have an account already? 
+          <Link to="/login">
+            Login right here!
+          </Link>
+        </div>
     </div>
   )
 }
