@@ -43,10 +43,10 @@ usersController.checkPass = (req, res, next) => {
         })
 }
 
-usersController.createUser = (req, res, next) => {
-    // console.log(req.body)
-    next()
-}
+// usersController.createUser = (req, res, next) => {
+//     // console.log(req.body)
+//     next()
+// }
 
 // const createUser = (req, res) => {
 //   const { firstName, lastName, password, userRole,email, commentId } = request.body
