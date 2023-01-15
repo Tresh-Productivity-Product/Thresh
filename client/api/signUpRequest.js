@@ -1,6 +1,6 @@
 import { API_URL } from "./config";
 
-export default (email, password) => {
+export default (email, password, firstName, lastName, userRole) => {
   return fetch(`${API_URL}/signup`, {
     method: 'POST',
     headers: {
@@ -9,6 +9,9 @@ export default (email, password) => {
     body: JSON.stringify({
       email,
       password,
+      firstName,
+      lastName,
+      userRole
     })
   })
     .then(res => {
