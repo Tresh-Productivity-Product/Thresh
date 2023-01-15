@@ -17,11 +17,11 @@ router.post('/:id', tasksController.createTask, (req, res, next) => {
 });
 //DELETE ONE TASK ROUTE
 router.delete('/:id', userController.deleteTask, (req, res, next) => {
-  res.status(200).json(res.locals)
+  res.status(200).json(res.locals.deletedTask)
 });
 //UPDATE ONE TASK ROUTE
 router.patch('/:id', taskController.updateTask, (req, res, next) => {
-  res.status(200).json(res.locals)
+  res.status(200).json(res.locals.updatedTask)
 });
 
 module.exports = router;
