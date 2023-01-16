@@ -15,7 +15,7 @@ const WORKFACTOR = 15;
 
 //CRYPT USER PASSWORD
 usersController.getBcrypt = (req, res, next) => {
-    console.log('req body: ', req.body)
+    // console.log('req body: ', req.body)
     //temp
     const pass = req.body.password;
     bcrypt.hash(pass, WORKFACTOR)
@@ -27,26 +27,6 @@ usersController.getBcrypt = (req, res, next) => {
             return next();
         })
 }
-
-//CHECK USER PASSWORD
-usersController.checkPass = (req, res, next) => {
-    //logic to get DB user password by email
-    //store hashed pass in 'hash'
-    // console.log('req body: ', req.body)
-    // const pass = req.query.password;
-    // const hash = 'db result'
-
-    // const text = `SELECT * FROM users WHERE password = '${pass}'`
-
-    const hashed = res.locals.oneUser.password
-    bcrypt.compare(pass, hashed)
-        .then(result => {
-            // console.log('result: ', result)
-            res.locals.signin = result; //true if success
-            return next();
-        })
-}
-
 
 
 //GET ALL USERS CONTROLLER
@@ -66,14 +46,13 @@ usersController.getUser = async (req, res, next) => {
 
     const text = `SELECT * FROM users WHERE email = $1`
     const values = [email]
-    
+
     try {
-        // postgreSQL is a synchronous db management system
-        // don't have to put await
-        const response = db.query(text, values);
+        // postgreSQL is a asynchronous by default - ignore vscode await error
+        const response = await db.query(text, values);
         // storing input into res.locals.oneUser, response.rows is an array with one object
         res.locals.oneUser = response.rows[0];
-        const databasePw = response.rows[0].password;
+        const databasePw = res.locals.oneUser.password;
         
         // use bcrypt.compare to check password
         // verified = true if bcrypt.compare is successful
