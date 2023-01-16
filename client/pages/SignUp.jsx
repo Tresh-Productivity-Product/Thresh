@@ -22,9 +22,9 @@ export const SignUp = () => {
     //   })
     //   .catch((err) => {
     //     setError(err.message);
-    //   });
+    //   });/
     try {
-      const response = await axios.post('/api/users', { firstName, lastName, password, userRole, email })
+      const response = await axios.post('/api/users/signup', { firstName, lastName, password, userRole, email })
       console.log(response.data)
     } catch (err) {
       console.log(err)
