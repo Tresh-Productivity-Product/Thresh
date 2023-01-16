@@ -70,8 +70,8 @@ export const SignUp = () => {
           <button>Sign Up</button>
         </form>
         <div>
-          Have an account already? 
-          <Link to="/login">
+          Have an account already? <br />
+          <Link to="/login" className='text-tertiary-500 underline'>
             Login right here!
           </Link>
         </div>
