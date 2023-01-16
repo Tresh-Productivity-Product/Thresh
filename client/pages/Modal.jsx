@@ -1,12 +1,6 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Modal = ({
-  newTodo,
-  handleCloseModal,
-  handleTodoTitle,
-  handleTodoText,
-  handleSubmit,
-}) => {
+const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, handleSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
