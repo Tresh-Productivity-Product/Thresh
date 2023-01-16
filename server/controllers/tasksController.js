@@ -24,8 +24,8 @@ tasksController.getTasks = (req, res, next) => {
 }
 //GET ONE TASK CONTROLLER
 tasksController.getTask = (req, res, next) => {
-  const id = req.params.id
-    const text = `SELECT * FROM task WHERE _id = ${id}`;
+  const id = req.params.id //set ID primary key in table
+    const text = `SELECT * FROM task WHERE _id = ${id}`; 
     db.query(text)
     .then(data => {
         console.log('DATA ', data.rows)
@@ -45,30 +45,28 @@ tasksController.getTask = (req, res, next) => {
 tasksController.createTask = (req,res,next) => {
   
   const {
-    taskTitle,
-    taskDetail,
-    dateCreated,
-    doing,
-    done,
-    comment_id
+    title,
+    text,
+    // create_date,
+    // comment_id
   } = req.body
+  
+  // console.log(req.body);
 
-  const text = `INSERT INTO task (taskTitle, taskDetail, dateCreated, doing, done, comment_id)
-  VALUES($1, $2, $3, $4, $5, $6)
-  RETURNING *`;
+  const query = `INSERT INTO task (title, text)
+    VALUES($1, $2)
+    RETURNING *`;
 
   const values = [
-    taskTitle,
-    taskDetail,
-    dateCreated,
-    doing,
-    done,
-    comment_id
+    title,
+    text
+    // create_date
   ]
 
-  db.query(text, values)
+  db.query(query, values)
     .then(data => {
-      res.locals.newTask = rows.data;
+      console.log('data:', data.rows[0])
+      res.locals.newTask = data.rows[0]
       return next();
     })
     .catch(err => {
@@ -81,8 +79,8 @@ tasksController.createTask = (req,res,next) => {
 }
 //DELETE ONE TASK CONTROLLER
 tasksController.deleteTask = (req,res,next) => {
-  const { id } = req.query
-  const text = `DELETE FROM task WHERE task._id = ${id}`
+  const { id } = req.query //set ID primary key in table
+  const text = `DELETE FROM task WHERE task.ID = ${id}`
 
   db.query(text) 
     .then(data => {
@@ -100,7 +98,7 @@ tasksController.deleteTask = (req,res,next) => {
 
 //UPDATE ONE TASK CONTROLLER ---> not working yet
 tasksController.updateTask = (req,res,next) => {
-  const { id } = req.query;
+  const { id } = req.query; //set ID primary key in table
   const { newUpdate, newTaskDetail, newDateCreated, newDoing, newDone } = req.body;
 
   const text = `UPDATE task SET taskTitle = ${newUpdate}, taskDetail = ${newTaskDetail}, dateCreated = ${newDateCreated}, doing= ${newDoing}, done= ${newDone} WHERE task._id = ${id}`;
