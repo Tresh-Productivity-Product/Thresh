@@ -22,7 +22,7 @@ export const Login = () => {
     //   });
 
     try {
-      const response = await axios.get(`/api/users/verify?email=${email}`)
+      const response = await axios.post(`/api/users/verify`, { email, password })
       console.log(response.data)
     } catch (err) {
       console.log(err)
