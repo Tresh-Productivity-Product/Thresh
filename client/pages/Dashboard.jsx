@@ -87,6 +87,7 @@ const onDragEnd = (result, columns, setColumns) => {
 };
 
 const Dashboard = () => {
+  // change data to empty array when working with real data
   const [columns, setColumns] = useState({
     ['tasks']: {
       name: 'To Do',
