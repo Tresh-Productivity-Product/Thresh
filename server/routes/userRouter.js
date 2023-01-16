@@ -9,7 +9,7 @@ router.get('/', userController.getUsers, (req, res, next) => {
   res.status(200).json(res.locals.allUsers);
 });
 //GET ONE USER ROUTE
-router.get('/:id', userController.getUser, (req, res, next) => {
+router.get('/verify', userController.getUser, (req, res, next) => {
   res.status(200).json(res.locals.oneUser);
 });
 //CREATE ONE USER ROUTE

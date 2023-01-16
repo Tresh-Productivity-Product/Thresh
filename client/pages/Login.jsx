@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import loginRequest from '../api/loginRequest';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 export const Login = () => {
   // useState to update and track the input fields from the login page
@@ -10,15 +11,22 @@ export const Login = () => {
   const navigate = useNavigate();
 
   // handle login form submission
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    loginRequest(email, password)
-      .then(() => {
-        navigate('/dashboard');
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    // loginRequest(email, password)
+    //   .then(() => {
+    //     navigate('/dashboard');
+    //   })
+    //   .catch((err) => {
+    //     setError(err.message);
+    //   });
+
+    try {
+      const response = await axios.get(`/api/users/verify?email=${email}`)
+      console.log(response.data)
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   return (
