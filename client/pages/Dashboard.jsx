@@ -114,6 +114,7 @@ const Dashboard = () => {
   // const getTodos = async () => {
   //   try {
   //     const response = await axios.get('');
+  //     console.log(response.data)
   //     setColumns((prev) => ({
   //       ...prev,
   //       tasks: {
