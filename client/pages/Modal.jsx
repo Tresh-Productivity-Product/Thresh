@@ -4,7 +4,7 @@ const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, han
   return (
     <form
       onSubmit={handleSubmit}
-      className="fixed inset-auto flex flex-col items-center justify-center gap-5 py-2 pl-4 bg-primary-500 bg-opacity-25 backdrop-blur-2xl"
+      className="fixed inset-auto flex flex-col items-center justify-center gap-5 py-2 pl-4 bg-primary-500 bg-opacity-25 backdrop-blur-2xl rounded-xl"
     >
       <div
         onClick={handleCloseModal}

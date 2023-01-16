@@ -1,6 +1,4 @@
 import React, { useState, useEffect } from 'react';
-import Todo from './Todo.jsx';
-import Modal from './Modal.jsx';
 import axios from 'axios';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './Column.jsx';
@@ -29,22 +27,22 @@ const data = [
   },
   {
     id: 'dsfasdsadfsfadfsadf',
-    title: 'Database',
+    title: 'Node',
     text: 'dsafsdfsfd',
   },
   {
     id: 'dsafsdfs',
-    title: 'Database',
+    title: 'Authorization',
     text: 'dsafsdfsfd',
   },
   {
     id: 'dsfasdfasdfsdfdfsadf',
-    title: 'Database',
+    title: 'Authentication',
     text: 'dsafsdfsfd',
   },
   {
     id: 'sadfsd',
-    title: 'Database',
+    title: 'Feed the Dog',
     text: 'dsafsdfsfd',
   },
 ];
