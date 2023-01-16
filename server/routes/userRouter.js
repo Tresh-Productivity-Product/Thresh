@@ -9,11 +9,11 @@ router.get('/', userController.getUsers, (req, res, next) => {
   res.status(200).json(res.locals.allUsers);
 });
 //GET ONE USER ROUTE
-router.get('/verify', userController.getUser, (req, res, next) => {
+router.post('/verify', userController.getUser, (req, res, next) => {
   res.status(200).json(res.locals.oneUser);
 });
 //CREATE ONE USER ROUTE
-router.post('/', userController.createUser, (req, res, next) => {
+router.post('/', userController.getBcrypt, userController.createUser, (req, res, next) => {
   res.status(200).json(res.locals.newUser)
 });
 //DELETE ONE USER ROUTE
