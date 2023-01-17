@@ -1,11 +1,18 @@
 import React, { useState } from 'react';
 
-const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, handleSubmit, getTodos }) => {
+const Modal = ({
+  newTodo,
+  handleCloseModal,
+  handleTodoTitle,
+  handleTodoText,
+  handleSubmit,
+  getTodos,
+}) => {
   const submitTask = () => {
     // handleSubmit();
     handleCloseModal();
     setTimeout(getTodos(), 200);
-  }
+  };
   return (
     <form
       onSubmit={handleSubmit}
@@ -17,15 +24,15 @@ const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, han
       >
         x
       </div>
-      <label className="text-secondary-500">
+      <label className="text-primary-500">
         Task
         <input
           value={newTodo.title}
           onChange={handleTodoTitle}
-          className="bg-primary-500 ml-3 rounded-lg px-3"
+          className="bg-primary-500 ml-3 rounded-lg px-3 text-secondary-500"
         />
       </label>
-      <label className="text-secondary-500">
+      <label className="text-primary-500">
         Task Details
         <input
           value={newTodo.text}
@@ -34,10 +41,12 @@ const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, han
         />
       </label>
 
-      <button 
-      className="bg-tertiary-500 py-1 mb-3" 
-      // onClick={submitTask}
-      >Add Task</button>
+      <button
+        className="bg-tertiary-500 py-1 mb-3"
+        // onClick={submitTask}
+      >
+        Add Task
+      </button>
     </form>
   );
 };
