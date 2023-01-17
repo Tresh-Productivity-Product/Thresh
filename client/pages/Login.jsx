@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import loginRequest from '../api/loginRequest';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 export const Login = () => {
   // useState to update and track the input fields from the login page
@@ -10,15 +11,22 @@ export const Login = () => {
   const navigate = useNavigate();
 
   // handle login form submission
-  const handleLogin = (e) => {
+  const handleLogin = async (e) => {
     e.preventDefault();
-    loginRequest(email, password)
-      .then(() => {
-        navigate('/dashboard');
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    // loginRequest(email, password)
+    //   .then(() => {
+    //     navigate('/dashboard');
+    //   })
+    //   .catch((err) => {
+    //     setError(err.message);
+    //   });
+
+    try {
+      const response = await axios.post(`/api/users/verify`, { email, password })
+      console.log(response.data)
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   return (
@@ -37,6 +45,7 @@ export const Login = () => {
           onChange={(e) => setEmail(e.target.value)}
         />
         <input
+          type="password"
           placeholder="Password:"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -44,8 +53,8 @@ export const Login = () => {
         <button>Login</button>
       </form>
       <div>
-        Don't have an account?
-        <Link to="/signup">Sign up right here!</Link>
+        Don't have an account? <br />
+        <Link to="/signup" className='underline text-tertiary-500'>Sign up right here!</Link>
       </div>
     </div>
   );

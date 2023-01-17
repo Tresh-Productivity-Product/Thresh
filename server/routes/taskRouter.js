@@ -12,11 +12,11 @@ router.get('/:id', tasksController.getTask, (req, res, next) => {
   res.status(200).json(res.locals.oneTask);
 });
 //CREATE ONE TASK ROUTE
-router.post('/:id', tasksController.createTask, (req, res, next) => {
-  res.status(200).json(res.locals.newUser)
+router.post('/create', tasksController.createTask, (req, res, next) => {
+  res.status(200).json(res.locals.newTask)
 });
 //DELETE ONE TASK ROUTE
-router.delete('/:id', tasksController.deleteTask, (req, res, next) => {
+router.delete('/delete', tasksController.deleteTask, (req, res, next) => {
   res.status(200).json(res.locals.deletedTask)
 });
 //UPDATE ONE TASK ROUTE

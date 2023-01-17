@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import signUpRequest from '../api/signUpRequest';
 import { Link, useNavigate } from 'react-router-dom';
+import axios from 'axios'
 
 export const SignUp = () => {
   // useState to update and track the input fields from the signup page
@@ -13,15 +14,21 @@ export const SignUp = () => {
   const navigate = useNavigate();
 
   // handle form submission 
-  const handleSignUp = (e) => {
+  const handleSignUp = async (e) => {
     e.preventDefault();
-    signUpRequest(email, password, firstName, lastName, userRole)
-      .then(() => {
-        navigate('/dashboard');
-      })
-      .catch((err) => {
-        setError(err.message);
-      });
+    // signUpRequest(email, password, firstName, lastName, userRole)
+    //   .then(() => {
+    //     navigate('/dashboard');
+    //   })
+    //   .catch((err) => {
+    //     setError(err.message);
+    //   });/
+    try {
+      const response = await axios.post('/api/users/signup', { firstName, lastName, password, userRole, email })
+      console.log(response.data)
+    } catch (err) {
+      console.log(err)
+    }
   };
 
   return (
@@ -63,8 +70,8 @@ export const SignUp = () => {
           <button>Sign Up</button>
         </form>
         <div>
-          Have an account already? 
-          <Link to="/login">
+          Have an account already? <br />
+          <Link to="/login" className='text-tertiary-500 underline'>
             Login right here!
           </Link>
         </div>

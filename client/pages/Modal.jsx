@@ -1,16 +1,10 @@
-import React from 'react';
+import React, { useState } from 'react';
 
-const Modal = ({
-  newTodo,
-  handleCloseModal,
-  handleTodoTitle,
-  handleTodoText,
-  handleSubmit,
-}) => {
+const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, handleSubmit }) => {
   return (
     <form
       onSubmit={handleSubmit}
-      className="fixed inset-96 flex flex-col items-center justify-center gap-5 pb-4 bg-primary-500 bg-opacity-75 backdrop-blur-3xl"
+      className="fixed inset-auto flex flex-col items-center justify-center gap-5 py-2 pl-4 bg-primary-500 bg-opacity-25 backdrop-blur-2xl rounded-xl"
     >
       <div
         onClick={handleCloseModal}
@@ -35,7 +29,7 @@ const Modal = ({
         />
       </label>
 
-      <button className="bg-tertiary-500 py-1 -mb-2 ">Add Task</button>
+      <button className="bg-tertiary-500 py-1 mb-3">Add Task</button>
     </form>
   );
 };
