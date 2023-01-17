@@ -8,6 +8,7 @@ export const Login = () => {
   const [password, setPassword] = useState('');
   const [email, setEmail] = useState('');
   const [error, setError] = useState('');
+  const [user, setUser] = useState('');
   const navigate = useNavigate();
 
   // handle login form submission
@@ -23,7 +24,10 @@ export const Login = () => {
 
     try {
       const response = await axios.post(`/api/users/verify`, { email, password })
-      console.log(response.data)
+      console.log('res.data: ', response.data)
+      const currUser =`${response.data.firstname} ${response.data.lastname}`
+      console.log(currUser)
+      setUser(currUser)
     } catch (err) {
       console.log(err)
     }
@@ -51,8 +55,11 @@ export const Login = () => {
           onChange={(e) => setPassword(e.target.value)}
         />
         <button>Login</button>
+        {/* <Link to="/dashboard"><button>Login</button></Link> */}
       </form>
       <div>
+        {/* <Link to={{pathname: '/dashboard'}} ><button>Dashboard</button></Link> */}
+        <br/>
         Don't have an account? <br />
         <Link to="/signup" className='underline text-tertiary-500'>Sign up right here!</Link>
       </div>

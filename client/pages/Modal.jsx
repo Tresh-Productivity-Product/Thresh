@@ -1,6 +1,11 @@
 import React, { useState } from 'react';
 
-const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, handleSubmit }) => {
+const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, handleSubmit, getTodos }) => {
+  const submitTask = () => {
+    // handleSubmit();
+    handleCloseModal();
+    setTimeout(getTodos(), 200);
+  }
   return (
     <form
       onSubmit={handleSubmit}
@@ -29,7 +34,10 @@ const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, han
         />
       </label>
 
-      <button className="bg-tertiary-500 py-1 mb-3">Add Task</button>
+      <button 
+      className="bg-tertiary-500 py-1 mb-3" 
+      // onClick={submitTask}
+      >Add Task</button>
     </form>
   );
 };

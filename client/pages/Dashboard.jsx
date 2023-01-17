@@ -112,7 +112,7 @@ const Dashboard = () => {
   const getTodos = async () => {
     try {
       const response = await axios.get('/api/tasks');
-      console.log(response.data)
+      // console.log('RES DATAAA: ', response.data)
       setColumns({
         ['tasks']: {
           name: 'To Do',
@@ -136,8 +136,8 @@ const Dashboard = () => {
     }
   };
 
-  console.log('HERE', columns.tasks.items)
-
+  // console.log('HERE', columns.tasks.items)
+  // console.log(getTodos)
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <div className="grid grid-cols-4 w-5/6 h-3/4 gap-10 mt-10">
@@ -154,6 +154,7 @@ const Dashboard = () => {
                 key={columnId}
                 index={index}
                 column={column}
+                getTodos={getTodos}
               />
             );
           })}

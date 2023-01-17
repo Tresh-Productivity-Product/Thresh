@@ -83,7 +83,7 @@ commentsController.updateComment = (req, res, next) => {
     console.log('commentBody' + commentBody)
     const text = `UPDATE comment 
     SET  commentBody = '${commentBody}'
-    WHERE _id = ${id};`
+    WHERE id = ${id};`
 
     db.query(text)
         .then(data => {
@@ -104,18 +104,18 @@ commentsController.updateComment = (req, res, next) => {
 
 commentsController.addComment = (req, res, next) => {
     const {
-        _id,
+        id,
         user_id,
         date,
         commentBody
     } = req.body;
 
-    const text = `INSERT INTO comment(_id, user_id, date, commentBody)
+    const text = `INSERT INTO comment(id, user_id, date, commentBody)
     VALUES($1, $2, $3, $4)
     RETURNING *`;
 
     const values = [
-        _id,
+        id,
         user_id,
         date,
         commentBody

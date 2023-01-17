@@ -57,7 +57,10 @@ usersController.getUser = async (req, res, next) => {
         // use bcrypt.compare to check password
         // verified = true if bcrypt.compare is successful
         const verified = await bcrypt.compare(password, databasePw);
-        if (verified) return next();
+        if (verified) {
+            // res.redirect(303)
+            return next();
+        }
         else return res.status(400).json({ msg: 'Invalid credentials' });
     } catch (err) {
         console.log(err)
@@ -103,6 +106,16 @@ usersController.updateUser = (req,res,next) => {
         res.locals.newUser = data.rows
         return next()
     })
+
+usersController.verifyUser = (req, res, next) => {
+    const { id } = req.params.id;
+    const { email, password } = req.body;
+    const text = `SELECT * from user WHERE ID = ${id} `
+    db.query(text)
+        .then(data => {
+            
+        })
+}
 }
 
 
