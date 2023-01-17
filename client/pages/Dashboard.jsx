@@ -3,50 +3,6 @@ import axios from 'axios';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './Column.jsx';
 
-// MOCK DATA
-// const data = [
-//   {
-//     id: 'afd',
-//     title: 'React',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'Dodsfasdf',
-//     title: 'Tailwind',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'Fdsafadsf',
-//     title: 'Express',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'sdfdafs',
-//     title: 'Database',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'dsfasdsadfsfadfsadf',
-//     title: 'Node',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'dsafsdfs',
-//     title: 'Authorization',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'dsfasdfasdfsdfdfsadf',
-//     title: 'Authentication',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'sadfsd',
-//     title: 'Feed the Dog',
-//     text: 'dsafsdfsfd',
-//   },
-// ];
-
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -130,23 +86,12 @@ const Dashboard = () => {
           name: 'Complete',
           items: [],
         },
-      })
+      });
     } catch (err) {
       console.log(err);
     }
   };
 
-  // const deleteTodo = async (id) => {
-    
-  //   console.log('deleted ', id);
-  //   const response = await axios.delete(`/api/tasks/delete?id=${id}`)
-  //   console.log(columns.tasks.items)
-  //   setColumns((prev) => prev.tasks.items.filter(task => task._id !== response.data.id))
-  //   // getTodos()
-  // }
-
-  // console.log('HERE', columns.tasks.items)
-  // console.log(getTodos)
   return (
     <div className="w-screen h-screen flex items-center justify-center">
       <div className="grid grid-cols-4 w-5/6 h-3/4 gap-10 mt-10">
@@ -156,15 +101,12 @@ const Dashboard = () => {
           {Object.entries(columns).map(([columnId, column], index) => {
             return (
               <Column
-                columns={columns}
-                setColumns={setColumns}
                 colName={column.name}
                 droppableId={columnId}
                 key={columnId}
                 index={index}
                 column={column}
                 getTodos={getTodos}
-                // deleteTodo={deleteTodo}
               />
             );
           })}
