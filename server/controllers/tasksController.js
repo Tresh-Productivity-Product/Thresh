@@ -10,7 +10,7 @@ tasksController.getTasks = (req, res, next) => {
     db.query(text)
     .then(data => {
        // console.log('DATA: ', data);
-        console.log('DATA.ROWS: ', data.rows);
+        //console.log('DATA.ROWS: ', data.rows);
         res.locals.allTasks = data.rows
         return next()
     })
