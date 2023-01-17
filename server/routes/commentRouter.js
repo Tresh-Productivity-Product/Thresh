@@ -4,7 +4,7 @@ const commentsController = require('../controllers/commentsController');
 const router = express.Router();
 
 //get all comments
-router.get('/', commentsController.getComments, (req, res)  => {
+router.get('/all', commentsController.getComments, (req, res)  => {
     res.status(200).json(res.locals.allComments);
 })
 //get all comments for individual task
@@ -16,14 +16,14 @@ router.post('/', commentsController.addComment, (req, res)  => {
     res.status(200).json(res.locals.newComment);
 })
 //delete all comments (may not need)
+// router.delete('/:id', commentsController.deleteComments, (req, res)  => {
+//     res.status(200).json(res.locals.deletedComments);
+// })
+//remove comment from task
 router.delete('/:id', commentsController.deleteComments, (req, res)  => {
     res.status(200).json(res.locals.deletedComments);
 })
-//remove comment from task
-router.delete('/:id', commentsController.removeComment, (req, res)  => {
-    res.status(200).json(res.locals.deletedTaskComment);
-})
-//update specific comment (not sure if correct)
+//update specific comment
 router.patch('/:id', commentsController.updateComment, (req, res)  => {
     res.status(201).json(res.locals.updatedComment);
 })

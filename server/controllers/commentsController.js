@@ -24,7 +24,7 @@ commentsController.getComments = (req, res, next) => {
 commentsController.getCommentsPerTask = (req, res, next) => {
     //const { id } = req.query;
     const  id = req.params.id
-    const text = `SELECT * FROM comment WHERE tasks._id = ${id}`;
+    const text = `SELECT * FROM comment WHERE ID = ${id}`;
 
     db.query(text)
         .then(data => {
@@ -42,7 +42,7 @@ commentsController.getCommentsPerTask = (req, res, next) => {
 
 commentsController.deleteComments = (req, res, next) => {
     const  id  = req.params.id;
-    const text = `DELETE FROM comment WHERE _id = ${id}`
+    const text = `DELETE FROM comment WHERE ID = ${id}`
 
     db.query(text)
         .then(data => {
@@ -59,23 +59,23 @@ commentsController.deleteComments = (req, res, next) => {
           })
 }
 
-commentsController.removeComment = (req, res, next) => {
-    const { id } = req.query;
-    const text = `DELETE FROM comment WHERE tasks._id = ${id}`
+// commentsController.removeComment = (req, res, next) => {
+//     const { id } = req.query;
+//     const text = `DELETE FROM comment WHERE ID = ${id}`
 
-    db.query(text)
-        .then(data => {
-            res.locals.deletedTaskComment = data.rows;
-            return next();
-        })
-        .catch(err => {
-            next({
-              status: 400,
-              log: 'Error in commentsController.removeComment',
-              message: {err: 'Error in commentsController.removeComment'}
-            })
-          })
-}
+//     db.query(text)
+//         .then(data => {
+//             res.locals.deletedTaskComment = data.rows;
+//             return next();
+//         })
+//         .catch(err => {
+//             next({
+//               status: 400,
+//               log: 'Error in commentsController.removeComment',
+//               message: {err: 'Error in commentsController.removeComment'}
+//             })
+//           })
+// }
 
 commentsController.updateComment = (req, res, next) => {
     const id = req.params.id
@@ -83,7 +83,7 @@ commentsController.updateComment = (req, res, next) => {
     console.log('commentBody' + commentBody)
     const text = `UPDATE comment 
     SET  commentBody = '${commentBody}'
-    WHERE id = ${id};`
+    WHERE ID = ${id};`
 
     db.query(text)
         .then(data => {
@@ -104,26 +104,20 @@ commentsController.updateComment = (req, res, next) => {
 
 commentsController.addComment = (req, res, next) => {
     const {
-        id,
-        user_id,
-        date,
         commentBody
     } = req.body;
 
-    const text = `INSERT INTO comment(id, user_id, date, commentBody)
-    VALUES($1, $2, $3, $4)
+    const text = `INSERT INTO comment (commentBody)
+    VALUES($1)
     RETURNING *`;
 
     const values = [
-        id,
-        user_id,
-        date,
         commentBody
     ];
 
     db.query(text, values)
         .then(data => {
-            res.locals.newComment = data.rows;
+            res.locals.newComment = data.rows[0];
             return next();
         })
         .catch(err => {
