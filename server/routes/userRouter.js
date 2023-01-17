@@ -8,8 +8,8 @@ const router = express.Router();
 router.get('/', userController.getUsers, (req, res, next) => {
   res.status(200).json(res.locals.allUsers);
 });
-//GET ONE USER ROUTE
-router.post('/verify', userController.getUser, (req, res, next) => {
+
+router.post('/login', userController.getUser, (req, res, next) => {
   res.status(200).json(res.locals.oneUser);
   // res.redirect(302, '/api/dashboard')
 });

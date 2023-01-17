@@ -4,7 +4,8 @@ import axios from 'axios';
 
 const Todo = ({ title, text, item, index, getTodos }) => {
 
-  const deleteTodo = () => {
+  const deleteTodo = await () => {
+    
     console.log('deleted ', item.id)
     // const populate = 
     // axios.delete(`/api/tasks/delete?id=${item.id}`)
@@ -35,7 +36,10 @@ const Todo = ({ title, text, item, index, getTodos }) => {
               <li>{text}</li>
             </ul>
             <button
-            onClick={deleteTodo}
+              onClick={(e) => {
+                e.stopPropagtion()
+                deleteTodo(item.id)
+              }}
             >Delete</button>
           </div>
         );
