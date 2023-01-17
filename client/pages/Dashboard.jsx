@@ -4,48 +4,48 @@ import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './Column.jsx';
 
 // MOCK DATA
-const data = [
-  {
-    id: 'afd',
-    title: 'React',
-    text: 'dsafsdfsfd',
-  },
-  {
-    id: 'Dodsfasdf',
-    title: 'Tailwind',
-    text: 'dsafsdfsfd',
-  },
-  {
-    id: 'Fdsafadsf',
-    title: 'Express',
-    text: 'dsafsdfsfd',
-  },
-  {
-    id: 'sdfdafs',
-    title: 'Database',
-    text: 'dsafsdfsfd',
-  },
-  {
-    id: 'dsfasdsadfsfadfsadf',
-    title: 'Node',
-    text: 'dsafsdfsfd',
-  },
-  {
-    id: 'dsafsdfs',
-    title: 'Authorization',
-    text: 'dsafsdfsfd',
-  },
-  {
-    id: 'dsfasdfasdfsdfdfsadf',
-    title: 'Authentication',
-    text: 'dsafsdfsfd',
-  },
-  {
-    id: 'sadfsd',
-    title: 'Feed the Dog',
-    text: 'dsafsdfsfd',
-  },
-];
+// const data = [
+//   {
+//     id: 'afd',
+//     title: 'React',
+//     text: 'dsafsdfsfd',
+//   },
+//   {
+//     id: 'Dodsfasdf',
+//     title: 'Tailwind',
+//     text: 'dsafsdfsfd',
+//   },
+//   {
+//     id: 'Fdsafadsf',
+//     title: 'Express',
+//     text: 'dsafsdfsfd',
+//   },
+//   {
+//     id: 'sdfdafs',
+//     title: 'Database',
+//     text: 'dsafsdfsfd',
+//   },
+//   {
+//     id: 'dsfasdsadfsfadfsadf',
+//     title: 'Node',
+//     text: 'dsafsdfsfd',
+//   },
+//   {
+//     id: 'dsafsdfs',
+//     title: 'Authorization',
+//     text: 'dsafsdfsfd',
+//   },
+//   {
+//     id: 'dsfasdfasdfsdfdfsadf',
+//     title: 'Authentication',
+//     text: 'dsafsdfsfd',
+//   },
+//   {
+//     id: 'sadfsd',
+//     title: 'Feed the Dog',
+//     text: 'dsafsdfsfd',
+//   },
+// ];
 
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
@@ -89,7 +89,7 @@ const Dashboard = () => {
   const [columns, setColumns] = useState({
     ['tasks']: {
       name: 'To Do',
-      items: data,
+      items: [],
     },
     ['inProgress']: {
       name: 'In Progress',
@@ -105,25 +105,38 @@ const Dashboard = () => {
     },
   });
 
-  // useEffect(() => {
-  //   getTodos();
-  // }, []);
+  useEffect(() => {
+    getTodos();
+  }, []);
 
-  // const getTodos = async () => {
-  //   try {
-  //     const response = await axios.get('');
-  //     console.log(response.data)
-  //     setColumns((prev) => ({
-  //       ...prev,
-  //       tasks: {
-  //         ...prev.tasks,
-  //         items: [...prev.tasks.items, response.data],
-  //       },
-  //     }));
-  //   } catch (err) {
-  //     console.log(err);
-  //   }
-  // };
+  const getTodos = async () => {
+    try {
+      const response = await axios.get('/api/tasks');
+      console.log(response.data)
+      setColumns({
+        ['tasks']: {
+          name: 'To Do',
+          items: response.data,
+        },
+        ['inProgress']: {
+          name: 'In Progress',
+          items: [],
+        },
+        ['verified']: {
+          name: 'Verified',
+          items: [],
+        },
+        ['complete']: {
+          name: 'Complete',
+          items: [],
+        },
+      })
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  console.log('HERE', columns.tasks.items)
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">
