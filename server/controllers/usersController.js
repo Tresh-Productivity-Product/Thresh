@@ -72,9 +72,9 @@ usersController.getUser = (req, res, next) => {
 //CREATE ONE USER CONTROLLER
 usersController.createUser = (req,res,next) => {
     console.log(req.body)
-     const { _id, firstName, lastName, password, userRole, email } = req.body
+     const {  firstName, lastName, password, userRole, email } = req.body
     const text = `INSERT INTO users ( _id, firstName, lastName, password, userRole, email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`
-    const values = [ _id, firstName, lastName, password, userRole, email]
+    const values = [  firstName, lastName, password, userRole, email]
     db.query(text, values)
     .then(data => {
         //console.log(data.rows)
