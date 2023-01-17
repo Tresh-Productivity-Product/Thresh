@@ -53,8 +53,8 @@ export const Login = () => {
         <button>Login</button>
       </form>
       <div>
-        Don't have an account?
-        <Link to="/signup">Sign up right here!</Link>
+        Don't have an account? <br />
+        <Link to="/signup" className='underline text-tertiary-500'>Sign up right here!</Link>
       </div>
     </div>
   );
