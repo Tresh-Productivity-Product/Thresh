@@ -26,7 +26,7 @@ tasksController.getTasks = (req, res, next) => {
 //GET ONE TASK CONTROLLER
 tasksController.getTask = (req, res, next) => {
   const id = req.params.id //set ID primary key in table
-    const text = `SELECT * FROM task WHERE _id = ${id}`; 
+    const text = `SELECT * FROM task WHERE id = ${id}`; 
     db.query(text)
     .then(data => {
         console.log('DATA ', data.rows)
@@ -103,7 +103,7 @@ tasksController.updateTask = (req,res,next) => {
   const { id } = req.query; //set ID primary key in table
   const { newUpdate, newTaskDetail, newDateCreated, newDoing, newDone } = req.body;
 
-  const text = `UPDATE task SET taskTitle = ${newUpdate}, taskDetail = ${newTaskDetail}, dateCreated = ${newDateCreated}, doing= ${newDoing}, done= ${newDone} WHERE task._id = ${id}`;
+  const text = `UPDATE task SET taskTitle = ${newUpdate}, taskDetail = ${newTaskDetail}, dateCreated = ${newDateCreated}, doing= ${newDoing}, done= ${newDone} WHERE task.id = ${id}`;
 
   db.query(text)
     .then(data => {
