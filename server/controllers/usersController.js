@@ -1,7 +1,7 @@
 const { data } = require('autoprefixer');
 const db = require('../models/db');
-const bcrypt = require('bcrypt')
 const usersController = {};
+const bcrypt = require('bcrypt')
 const WORKFACTOR = 15;
 
 // EXAMPLE DATA:
@@ -15,7 +15,7 @@ const WORKFACTOR = 15;
 
 //CRYPT USER PASSWORD
 usersController.getBcrypt = (req, res, next) => {
-    console.log('req body: ', req.body)
+    // console.log('req body: ', req.body)
     //temp
     const pass = req.body.password;
     bcrypt.hash(pass, WORKFACTOR)
@@ -27,38 +27,6 @@ usersController.getBcrypt = (req, res, next) => {
             return next();
         })
 }
-
-//CHECK USER PASSWORD
-usersController.checkPass = (req, res, next) => {
-    //logic to get DB user password by email
-    //store hashed pass in 'hash'
-    // console.log('req body: ', req.body)
-    const pass = req.body.password;
-    const hash = 'db result'
-    bcrypt.compare(pass, pass2)
-        .then(result => {
-            // console.log('result: ', result)
-            res.locals.signin = result; //true if success
-            return next();
-        })
-}
-
-// usersController.createUser = (req, res, next) => {
-//     // console.log(req.body)
-//     next()
-// }
-
-// const createUser = (req, res) => {
-//   const { firstName, lastName, password, userRole,email, commentId } = request.body
-
-//   pool.query('INSERT INTO users (firstName, lastName, password, userRole, email, commentId) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *', [firstName, lastName, password, userRole, email, commentId], (error, results) => {
-//     if (error) {
-//       throw error
-//     }
-//     response.status(201).send(`User added with ID: ${results.rows[0].id}`)
-//   })
-// }
-
 
 
 //GET ALL USERS CONTROLLER
@@ -73,24 +41,44 @@ usersController.getUsers = (req, res, next) => {
     })
 }
 //GET ONE USER CONTROLLER
-usersController.getUser = (req, res, next) => {
-    const id = req.params.id
-    const text = `SELECT * FROM users WHERE _id = ${id};`
-    console.log(id);
-    console.log(text);
-    db.query(text)
-    .then(data => {
-        console.log('DATA ', data.rows)
-        res.locals.oneUser = data.rows
-        return next()
-    })
+usersController.getUser = async (req, res, next) => {
+    console.log(req.body)
+    const { email, password } = req.body;
+
+    const text = `SELECT * FROM users WHERE email = $1`
+    const values = [email]
+
+    try {
+        // postgreSQL is a asynchronous by default - ignore vscode await error
+        const response = await db.query(text, values);
+        // storing input into res.locals.oneUser, response.rows is an array with one object
+        res.locals.oneUser = response.rows[0];
+        if (response.rows[0]) {
+            console.log('made it')
+            const databasePw = res.locals.oneUser.password;
+        
+            // use bcrypt.compare to check password
+            // verified = true if bcrypt.compare is successful
+            const verified = await bcrypt.compare(password, databasePw);
+            if (verified) {
+                console.log('made it again')
+                return next();
+            } else return res.status(403).json('err');
+        } else return res.status(403).json('err');
+    } catch (err) {
+        console.log(err)
+    }
 }
 //CREATE ONE USER CONTROLLER
 usersController.createUser = (req,res,next) => {
+
+    // INSERT INTO users ( firstName,lastName, password, userRole, email) VALUES ( 'Roberto', 'Meloni', '1234', 'backend', 'myessmail@google');
     console.log(req.body)
-     const { _id, firstName, lastName, password, userRole, email } = req.body
-    const text = `INSERT INTO users (_id, firstName, lastName, password, userRole, email) VALUES ($1, $2, $3, $4, $5, $6) RETURNING *;`
-    const values = [ _id, firstName, lastName, password, userRole, email]
+
+    const { firstName, lastName, password, userRole, email } = req.body
+    const text = `INSERT INTO users (firstName, lastName, password, userRole, email) VALUES ($1, $2, $3, $4, $5) RETURNING *;`
+    const values = [ firstName, lastName, password, userRole, email]
+
     db.query(text, values)
     .then(data => {
         console.log(data.rows)
@@ -109,14 +97,19 @@ usersController.deleteUser = (req,res,next) => {
         res.locals.deleteUser = data.rows
         return next()
     })
+    
+    
 }
 
-//UPDATE ONE USER CONTROLLER ---> not working yet
+//UPDATE ONE USER CONTROLLER ---> if you get everything in req.body
 usersController.updateUser = (req,res,next) => {
     console.log(req.body)
-     const { _id, firstName, lastName, password, userRole, email } = req.body
-    const text = `UPDATE users SET _id = $1, firstName = $2, lastName = $3, password = $4, userRole = $5, email=$6`
-    const values = [ _id, firstName, lastName, password, userRole, email]
+    console.log(req.params.id)
+   // const text1 =  `SELECT * FROM users WHERE email = ${req.params.id}`
+     const { firstName, lastName, password, userRole, email } = req.body
+    const text = `UPDATE users SET firstName = '${firstName}', lastName = '${lastName}', password = '${password}', userRole = '${userRole}', email= '${email}' WHERE ID = ${req.params.id}`
+    //const values = [ firstName, lastName, password, userRole, email]
+   console.log(req.body)
     db.query(text, values)
     .then(data => {
         console.log(data.rows)
@@ -124,6 +117,53 @@ usersController.updateUser = (req,res,next) => {
         return next()
     })
 }
+
+// usersController.verifyUser = (req, res, next) => {
+//     //const { id } = req.params.id;
+//     const { email, password } = req.body;
+//     const text = `SELECT * from user WHERE email = ${email} `
+//     db.query(text)
+//         .then(data => {
+//             res.locals.userId = data.ID.toString()
+//             if (!data || data.password !== password) return res.redirect('/signup')
+//             return next()
+//         })
+//         .catch(err => {
+//             console.log(err),
+//             next({
+//               status: 400,
+//               log: 'Error in usersController.verifyUser',
+//               message: {err: 'Error in usersController.verifyUser', }
+//             })
+//           })
+//         }
+
+usersController.setID = (req, res, next) => {
+    const id = res.locals.oneUser.id;
+    console.log(id)
+    res.cookie('ID', id, {httpOnly: true});
+    return next()
+}
+
+
+// Verify user is not working correctly
+// usersController.verifyID = (req, res, next) => {
+//     console.log('req-cookies', req.cookies);
+//     console.log('hello from cookie');
+//     const { id } = req.cookies;
+//     const text = `SELECT * users WHERE ID = ${id}`
+//     db.query(text) 
+//         .then(data => {
+//             console.log('data', data);
+//             return res.redirect('/login');
+//         })
+//     return next()
+// }
+
+
+
+
+
 
 
 module.exports = usersController;

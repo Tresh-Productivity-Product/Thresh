@@ -6,10 +6,10 @@ const commentsController = {}
 //Get all comments
 
 commentsController.getComments = (req, res, next) => {
-    const text = 'SELECT * FROM comments';
+    const text = 'SELECT * FROM comment';
     db.query(text)
     .then(data => {
-        res.locals.allComments = data
+        res.locals.allComments = data.rows
         return next();
     })
     .catch(err => {
@@ -22,8 +22,9 @@ commentsController.getComments = (req, res, next) => {
 }
 
 commentsController.getCommentsPerTask = (req, res, next) => {
-    const { id } = req.query;
-    const text = `SELECT * FROM comments WHERE tasks._id = ${id}`;
+    //const { id } = req.query;
+    const  id = req.params.id
+    const text = `SELECT * FROM comment WHERE ID = ${id}`;
 
     db.query(text)
         .then(data => {
@@ -40,8 +41,8 @@ commentsController.getCommentsPerTask = (req, res, next) => {
         }
 
 commentsController.deleteComments = (req, res, next) => {
-    const { id } = req.query;
-    const text = `DELETE FROM comments WHERE comments._id = ${id}`
+    const  id  = req.params.id;
+    const text = `DELETE FROM comment WHERE ID = ${id}`
 
     db.query(text)
         .then(data => {
@@ -49,6 +50,7 @@ commentsController.deleteComments = (req, res, next) => {
             return next();
         })
         .catch(err => {
+          console.log(err)
             next({
               status: 400,
               log: 'Error in commentsController.deleteComments',
@@ -57,35 +59,40 @@ commentsController.deleteComments = (req, res, next) => {
           })
 }
 
-commentsController.removeComment = (req, res, next) => {
-    const { id } = req.query;
-    const text = `DELETE FROM comments WHERE tasks._id = ${id}`
+// commentsController.removeComment = (req, res, next) => {
+//     const { id } = req.query;
+//     const text = `DELETE FROM comment WHERE ID = ${id}`
 
-    db.query(text)
-        .then(data => {
-            res.locals.deletedTaskComment = data.rows;
-            return next();
-        })
-        .catch(err => {
-            next({
-              status: 400,
-              log: 'Error in commentsController.removeComment',
-              message: {err: 'Error in commentsController.removeComment'}
-            })
-          })
-}
+//     db.query(text)
+//         .then(data => {
+//             res.locals.deletedTaskComment = data.rows;
+//             return next();
+//         })
+//         .catch(err => {
+//             next({
+//               status: 400,
+//               log: 'Error in commentsController.removeComment',
+//               message: {err: 'Error in commentsController.removeComment'}
+//             })
+//           })
+// }
 
 commentsController.updateComment = (req, res, next) => {
-    const { id } = req.query;
-    const { newComment } = req.body
-    const text = `UPDATE comments SET commentBody = ${newComment} WHERE comment._id = ${id}`;
+    const id = req.params.id
+    const  { commentBody }  = req.body
+    console.log('commentBody' + commentBody)
+    const text = `UPDATE comment 
+    SET  commentBody = '${commentBody}'
+    WHERE ID = ${id};`
 
     db.query(text)
         .then(data => {
+          console.log('DATA', data.rows)
             res.locals.updatedComment = data.rows;
             return next();
         })
         .catch(err => {
+          //console.log(err)
             next({
               status: 400,
               log: 'Error in commentsController.updateComment',
@@ -97,33 +104,28 @@ commentsController.updateComment = (req, res, next) => {
 
 commentsController.addComment = (req, res, next) => {
     const {
-        user,
-        user_id,
-        date,
         commentBody
     } = req.body;
 
-    const text = `INSERT INTO comments(_id, user, user_id, date, commentBody)
-    VALUES($1, $2, $3, $4, $5)
-    RETURNING *`
+    const text = `INSERT INTO comment (commentBody)
+    VALUES($1)
+    RETURNING *`;
 
     const values = [
-        user,
-        user_id,
-        date,
         commentBody
     ];
 
     db.query(text, values)
         .then(data => {
-            res.locals.newComment = data.rows;
+            res.locals.newComment = data.rows[0];
             return next();
         })
         .catch(err => {
+            console.log(err),
             next({
               status: 400,
               log: 'Error in commentsController.addComment',
-              message: {err: 'Error in commentsController.addComment'}
+              message: {err: 'Error in commentsController.addComment', }
             })
           })
 }

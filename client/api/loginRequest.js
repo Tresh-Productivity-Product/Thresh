@@ -8,14 +8,14 @@ export default (email, password) => {
     },
     body: JSON.stringify({
       email,
-      password,
+      password
     })
   })
     .then(res => {
       if (res) {
         return res.json()
       } else {
-        throw new Error('login incorrect')
+        throw new Error('incorrect, login')
       }
     })
 }
