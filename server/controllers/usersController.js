@@ -118,31 +118,49 @@ usersController.updateUser = (req,res,next) => {
     })
 }
 
-usersController.verifyUser = (req, res, next) => {
-    //const { id } = req.params.id;
-    const { email, password } = req.body;
-    const text = `SELECT * from user WHERE email = ${email} `
-    db.query(text)
-        .then(data => {
-            res.locals.userId = data.ID.toString()
-            if (!data || data.password !== password) return res.redirect('/signup')
-            return next()
-        })
-        .catch(err => {
-            console.log(err),
-            next({
-              status: 400,
-              log: 'Error in usersController.verifyUser',
-              message: {err: 'Error in usersController.verifyUser', }
-            })
-          })
-        }
+// usersController.verifyUser = (req, res, next) => {
+//     //const { id } = req.params.id;
+//     const { email, password } = req.body;
+//     const text = `SELECT * from user WHERE email = ${email} `
+//     db.query(text)
+//         .then(data => {
+//             res.locals.userId = data.ID.toString()
+//             if (!data || data.password !== password) return res.redirect('/signup')
+//             return next()
+//         })
+//         .catch(err => {
+//             console.log(err),
+//             next({
+//               status: 400,
+//               log: 'Error in usersController.verifyUser',
+//               message: {err: 'Error in usersController.verifyUser', }
+//             })
+//           })
+//         }
 
-usersController.setSSID = (req, res, next) => {
-    const id = res.locals.userId;
-    res.cookie('SSID', id, {httpOnly: true});
+usersController.setID = (req, res, next) => {
+    const id = res.locals.oneUser.id;
+    console.log(id)
+    res.cookie('ID', id, {httpOnly: true});
     return next()
 }
+
+
+// Verify user is not working correctly
+// usersController.verifyID = (req, res, next) => {
+//     console.log('req-cookies', req.cookies);
+//     console.log('hello from cookie');
+//     const { id } = req.cookies;
+//     const text = `SELECT * users WHERE ID = ${id}`
+//     db.query(text) 
+//         .then(data => {
+//             console.log('data', data);
+//             return res.redirect('/login');
+//         })
+//     return next()
+// }
+
+
 
 
 

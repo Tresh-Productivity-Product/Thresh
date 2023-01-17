@@ -136,6 +136,15 @@ const Dashboard = () => {
     }
   };
 
+  // const deleteTodo = async (id) => {
+    
+  //   console.log('deleted ', id);
+  //   const response = await axios.delete(`/api/tasks/delete?id=${id}`)
+  //   console.log(columns.tasks.items)
+  //   setColumns((prev) => prev.tasks.items.filter(task => task._id !== response.data.id))
+  //   // getTodos()
+  // }
+
   // console.log('HERE', columns.tasks.items)
   // console.log(getTodos)
   return (
@@ -148,13 +157,14 @@ const Dashboard = () => {
             return (
               <Column
                 columns={columns}
-                setColumns
+                setColumns={setColumns}
                 colName={column.name}
                 droppableId={columnId}
                 key={columnId}
                 index={index}
                 column={column}
                 getTodos={getTodos}
+                // deleteTodo={deleteTodo}
               />
             );
           })}
