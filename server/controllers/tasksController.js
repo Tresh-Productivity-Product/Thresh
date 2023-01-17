@@ -1,4 +1,3 @@
-const { io } = require('socket.io-client');
 const db = require('../models/db');
 
 const tasksController = {};
@@ -68,7 +67,6 @@ tasksController.createTask = (req,res,next) => {
     .then(data => {
       console.log('data:', data.rows[0])
       res.locals.newTask = data.rows[0]
-      io.emit('newTodo', data.rows[0])
       return next();
     })
     .catch(err => {

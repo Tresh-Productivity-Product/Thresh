@@ -12,7 +12,7 @@ const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, han
       >
         x
       </div>
-      <label className="text-secondary-500">
+      <label className="text-primary-500">
         Task
         <input
           value={newTodo.title}
@@ -20,7 +20,7 @@ const Modal = ({ newTodo, handleCloseModal, handleTodoTitle, handleTodoText, han
           className="bg-primary-500 ml-3 rounded-lg px-3"
         />
       </label>
-      <label className="text-secondary-500">
+      <label className="text-primary-500 ">
         Task Details
         <input
           value={newTodo.text}

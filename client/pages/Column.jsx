@@ -5,7 +5,8 @@ import Modal from './Modal.jsx';
 import axios from 'axios';
 import { io } from 'socket.io-client';
 
-const Column = ({ columns, setColumns, colName, droppableId, column }) => {
+const Column = ({ deleteTodo, tasks, getTodos, columns, setColumns, colName, droppableId, column }) => {
+  console.log('HERE2', column)
   const [newTodo, setNewTodo] = useState({
     title: '',
     text: '',
@@ -20,33 +21,33 @@ const Column = ({ columns, setColumns, colName, droppableId, column }) => {
     setModalActive(false);
   };
 
-  const axiosPost = async () => {
-    const response = await axios.post('/api/tasks/create', {
-      title: newTodo.title,
-      text: newTodo.text,
-    });
-    setColumns((prev) => ({
-      ...prev,
-      tasks: {
-        ...prev.tasks,
-        items: [...prev.tasks.items, response.data],
-      },
-    }));
-  };
+  // const axiosPost = async () => {
+  //   const response = await axios.post('/api/tasks/create', {
+  //     title: newTodo.title,
+  //     text: newTodo.text,
+  //   });
+  //   setColumns((prev) => ({
+  //     ...prev,
+  //     tasks: {
+  //       ...prev.tasks,
+  //       items: [...prev.tasks.items, response.data],
+  //     },
+  //   }));
+  // };
 
-  const socket = io('http://localhost:3000');
+  // const socket = io('http://localhost:3000');
 
-  useEffect(() => {
-    socket.on('newTodo', (task) => {
-      setColumns((prev) => ({
-        ...prev,
-        tasks: {
-          ...prev.tasks,
-          items: [...prev.tasks.items, task],
-        },
-      }));
-    });
-  }, [columns.tasks.items]);
+  // useEffect(() => {
+  //   socket.on('newTodo', (task) => {
+  //     setColumns((prev) => ({
+  //       ...prev,
+  //       tasks: {
+  //         ...prev.tasks,
+  //         items: [...prev.tasks.items, task],
+  //       },
+  //     }));
+  //   });
+  // }, [columns.tasks.items]);
 
   const handleSubmit = async (e) => {
     try {
@@ -63,10 +64,18 @@ const Column = ({ columns, setColumns, colName, droppableId, column }) => {
       //     items: [...prev.tasks.items, response.data],
       //   },
       // }));
+      // setColumns((prev) => ({
+      //   ...prev,
+      //   [droppableId]: {
+      //     ...column,
+      //     items: [...column.items, response.data],
+      //   },
+      // }));
+      getTodos();
       // axiosPost();
-      socket.emit('createTask', response.data)
+      // socket.emit('createTask', response.data)
       setNewTodo((todo) => ({ ...todo, title: '', text: '' }));
-
+      handleCloseModal();
       // const populate = await axios.get('/api/tasks')
       // setColumns((prev) => ({
       //   ...prev,
@@ -123,11 +132,12 @@ const Column = ({ columns, setColumns, colName, droppableId, column }) => {
             {column?.items?.map((item, index) => {
               return (
                 <Todo
-                  key={item.ID}
+                  key={item.id}
                   item={item}
                   index={index}
                   title={item.title}
                   text={item.text}
+                  deleteTodo={deleteTodo}
                 />
               );
             })}

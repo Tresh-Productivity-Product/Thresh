@@ -3,50 +3,6 @@ import axios from 'axios';
 import { DragDropContext } from 'react-beautiful-dnd';
 import Column from './Column.jsx';
 
-// MOCK DATA
-// const data = [
-//   {
-//     id: 'afd',
-//     title: 'React',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'Dodsfasdf',
-//     title: 'Tailwind',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'Fdsafadsf',
-//     title: 'Express',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'sdfdafs',
-//     title: 'Database',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'dsfasdsadfsfadfsadf',
-//     title: 'Node',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'dsafsdfs',
-//     title: 'Authorization',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'dsfasdfasdfsdfdfsadf',
-//     title: 'Authentication',
-//     text: 'dsafsdfsfd',
-//   },
-//   {
-//     id: 'sadfsd',
-//     title: 'Feed the Dog',
-//     text: 'dsafsdfsfd',
-//   },
-// ];
-
 const onDragEnd = (result, columns, setColumns) => {
   if (!result.destination) return;
   const { source, destination } = result;
@@ -86,6 +42,7 @@ const onDragEnd = (result, columns, setColumns) => {
 
 const Dashboard = () => {
   // change data to empty array when working with real data
+  const [tasks, setTasks] = useState([]);
   const [columns, setColumns] = useState({
     ['tasks']: {
       name: 'To Do',
@@ -109,10 +66,10 @@ const Dashboard = () => {
     getTodos();
   }, []);
 
-  const getTodos = async () => {
+  const getTodos = async (cb) => {
     try {
       const response = await axios.get('/api/tasks');
-      console.log(response.data)
+      console.log(response.data);
       setColumns({
         ['tasks']: {
           name: 'To Do',
@@ -131,12 +88,19 @@ const Dashboard = () => {
           items: [],
         },
       })
+      // setTasks(response.data);
     } catch (err) {
       console.log(err);
     }
   };
 
-  console.log('HERE', columns.tasks.items)
+  const deleteTodo = async (id) => {
+    const response = await axios.delete(`/api/tasks/delete?id=${id}`)
+    getTodos();
+    // setColumns(prev => prev.tasks.items.filter(task => task.id !== response.data.id))
+  }
+
+  // console.log('HERE', tasks);
 
   return (
     <div className="w-screen h-screen flex items-center justify-center">
@@ -148,15 +112,22 @@ const Dashboard = () => {
             return (
               <Column
                 columns={columns}
-                setColumns
+                setColumns={setColumns}
                 colName={column.name}
                 droppableId={columnId}
+                // droppableId={column.name}
                 key={columnId}
                 index={index}
                 column={column}
+                getTodos={getTodos}
+                deleteTodo={deleteTodo}
               />
             );
           })}
+          {/* <Column droppableId="todo" colName="To Do" tasks={tasks} />
+          <Column droppableId="prog" colName="In Progress" tasks={tasks} />
+          <Column droppableId="verified" colName="Verified" tasks={tasks} />
+          <Column droppableId="complete" colName="Complete" tasks={tasks} /> */}
         </DragDropContext>
       </div>
     </div>
