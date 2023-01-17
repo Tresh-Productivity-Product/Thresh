@@ -23,7 +23,7 @@ router.post('/', commentsController.addComment, (req, res)  => {
 router.delete('/:id', commentsController.deleteComments, (req, res)  => {
     res.status(200).json(res.locals.deletedComments);
 })
-//update specific comment (not sure if correct)
+//update specific comment
 router.patch('/:id', commentsController.updateComment, (req, res)  => {
     res.status(201).json(res.locals.updatedComment);
 })

@@ -24,7 +24,7 @@ commentsController.getComments = (req, res, next) => {
 commentsController.getCommentsPerTask = (req, res, next) => {
     //const { id } = req.query;
     const  id = req.params.id
-    const text = `SELECT * FROM comment WHERE tasks.ID = ${id}`;
+    const text = `SELECT * FROM comment WHERE ID = ${id}`;
 
     db.query(text)
         .then(data => {
