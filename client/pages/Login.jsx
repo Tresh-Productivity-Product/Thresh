@@ -23,20 +23,21 @@ export const Login = () => {
     //   });
 
     try {
-      const response = await axios.post(`/api/users/verify`, { email, password })
-      console.log('res.data: ', response.data)
-      const currUser =`${response.data.firstname} ${response.data.lastname}`
-      console.log(currUser)
-      setUser(currUser)
+      const response = await axios.post(`/api/users/login`, { email, password })
+      // console.log('res.data: ', response.data)
+      // const currUser =`${response.data.firstname} ${response.data.lastname}`
+      // console.log(currUser)
+      // setUser(currUser)
+      if (response) navigate('/dashboard');
     } catch (err) {
-      console.log(err)
+      setError('Invalid Email/Password');
+      console.log('err:', err)
     }
   };
-
   return (
     <div className="flex flex-col items-center justify-center h-screen w-screen">
       {/* display error message if error */}
-      <div>{error}</div>
+      <div className='text-red-700'>{error}</div>
       {/* useState to track the data in each input field */}
       <form
         onSubmit={handleLogin}

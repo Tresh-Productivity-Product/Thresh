@@ -2,22 +2,28 @@ import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
 import axios from 'axios';
 
-const Todo = ({ title, text, item, index, getTodos }) => {
+// const Todo = ({ deleteTodo, columns, setColumns, title, text, item, index, getTodos }) => {
+const Todo = ({ columns, setColumns, title, text, item, index, getTodos }) => {
 
-  const deleteTodo = () => {
+  const deleteTodo = async (id) => {
+    
     console.log('deleted ', item.id)
     // const populate = 
     // axios.delete(`/api/tasks/delete?id=${item.id}`)
-    fetch(`/api/tasks/delete?id=${item.id}`, {
-      method: 'DELETE',
-      // headers: {
-      //   'Content-Type': 'application/json',
-      // },
-      // body: JSON.stringify(item.id)
-    })
+    // fetch(`/api/tasks/delete?id=${item.id}`, {
+    //   method: 'DELETE',
+    //   // headers: {
+    //   //   'Content-Type': 'application/json',
+    //   // },
+    //   // body: JSON.stringify(item.id)
+    // })
     // .then(data => console.log('DATA: ', data))
     // setTimeout(getTodos(), 500)
-    getTodos()
+    const response = await axios.delete(`/api/tasks/delete?id=${id}`)
+    getTodos();
+    // console.log(columns)
+    // setColumns((prev) => prev.tasks.items.filter(task => task._id !== response.data.id))
+    // getTodos()
   }
 
   return (
@@ -35,7 +41,10 @@ const Todo = ({ title, text, item, index, getTodos }) => {
               <li>{text}</li>
             </ul>
             <button
-            onClick={deleteTodo}
+              onClick={(e) => {
+                e.stopPropagation()
+                deleteTodo(item.id)
+              }}
             >Delete</button>
           </div>
         );

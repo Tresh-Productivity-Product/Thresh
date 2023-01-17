@@ -5,7 +5,7 @@ import Modal from './Modal.jsx';
 import axios from 'axios';
 // import { io } from 'socket.io-client';
 
-const Column = ({ columns, setColumns, colName, droppableId, column, getTodos }) => {
+const Column = ({ deleteTodo, columns, setColumns, colName, droppableId, column, getTodos }) => {
   const [newTodo, setNewTodo] = useState({
     title: '',
     text: '',
@@ -131,6 +131,9 @@ const Column = ({ columns, setColumns, colName, droppableId, column, getTodos })
                   title={item.title}
                   text={item.text}
                   getTodos={getTodos}
+                  columns={columns}
+                  setColumns={setColumns}
+                  deleteTodo={deleteTodo}
                 />
               );
             })}

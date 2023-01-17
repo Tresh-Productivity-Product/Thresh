@@ -42,6 +42,7 @@ usersController.getUsers = (req, res, next) => {
 }
 //GET ONE USER CONTROLLER
 usersController.getUser = async (req, res, next) => {
+    console.log(req.body)
     const { email, password } = req.body;
 
     const text = `SELECT * FROM users WHERE email = $1`
@@ -52,16 +53,18 @@ usersController.getUser = async (req, res, next) => {
         const response = await db.query(text, values);
         // storing input into res.locals.oneUser, response.rows is an array with one object
         res.locals.oneUser = response.rows[0];
-        const databasePw = res.locals.oneUser.password;
+        if (response.rows[0]) {
+            console.log('made it')
+            const databasePw = res.locals.oneUser.password;
         
-        // use bcrypt.compare to check password
-        // verified = true if bcrypt.compare is successful
-        const verified = await bcrypt.compare(password, databasePw);
-        if (verified) {
-            // res.redirect(303)
-            return next();
-        }
-        else return res.status(400).json({ msg: 'Invalid credentials' });
+            // use bcrypt.compare to check password
+            // verified = true if bcrypt.compare is successful
+            const verified = await bcrypt.compare(password, databasePw);
+            if (verified) {
+                console.log('made it again')
+                return next();
+            } else return res.status(403).json('err');
+        } else return res.status(403).json('err');
     } catch (err) {
         console.log(err)
     }
@@ -94,6 +97,8 @@ usersController.deleteUser = (req,res,next) => {
         res.locals.deleteUser = data.rows
         return next()
     })
+    
+    
 }
 
 //UPDATE ONE USER CONTROLLER ---> if you get everything in req.body
@@ -111,17 +116,52 @@ usersController.updateUser = (req,res,next) => {
         res.locals.newUser = data.rows
         return next()
     })
+}
 
-usersController.verifyUser = (req, res, next) => {
-    const { id } = req.params.id;
-    const { email, password } = req.body;
-    const text = `SELECT * from user WHERE ID = ${id} `
-    db.query(text)
-        .then(data => {
-            
-        })
+// usersController.verifyUser = (req, res, next) => {
+//     //const { id } = req.params.id;
+//     const { email, password } = req.body;
+//     const text = `SELECT * from user WHERE email = ${email} `
+//     db.query(text)
+//         .then(data => {
+//             res.locals.userId = data.ID.toString()
+//             if (!data || data.password !== password) return res.redirect('/signup')
+//             return next()
+//         })
+//         .catch(err => {
+//             console.log(err),
+//             next({
+//               status: 400,
+//               log: 'Error in usersController.verifyUser',
+//               message: {err: 'Error in usersController.verifyUser', }
+//             })
+//           })
+//         }
+
+usersController.setID = (req, res, next) => {
+    const id = res.locals.oneUser.id;
+    console.log(id)
+    res.cookie('ID', id, {httpOnly: true});
+    return next()
 }
-}
+
+
+// Verify user is not working correctly
+// usersController.verifyID = (req, res, next) => {
+//     console.log('req-cookies', req.cookies);
+//     console.log('hello from cookie');
+//     const { id } = req.cookies;
+//     const text = `SELECT * users WHERE ID = ${id}`
+//     db.query(text) 
+//         .then(data => {
+//             console.log('data', data);
+//             return res.redirect('/login');
+//         })
+//     return next()
+// }
+
+
+
 
 
 
