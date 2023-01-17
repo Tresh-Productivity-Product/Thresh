@@ -1,7 +1,25 @@
 import React from 'react';
 import { Draggable } from 'react-beautiful-dnd';
+import axios from 'axios';
 
-const Todo = ({ title, text, item, index }) => {
+const Todo = ({ title, text, item, index, getTodos }) => {
+
+  const deleteTodo = () => {
+    console.log('deleted ', item.id)
+    // const populate = 
+    // axios.delete(`/api/tasks/delete?id=${item.id}`)
+    fetch(`/api/tasks/delete?id=${item.id}`, {
+      method: 'DELETE',
+      // headers: {
+      //   'Content-Type': 'application/json',
+      // },
+      // body: JSON.stringify(item.id)
+    })
+    // .then(data => console.log('DATA: ', data))
+    // setTimeout(getTodos(), 500)
+    getTodos()
+  }
+
   return (
     <Draggable key={item.id} draggableId={item.id.toString()} index={index}>
       {(provided, snapshot) => {
@@ -16,6 +34,9 @@ const Todo = ({ title, text, item, index }) => {
             <ul className="text-secondary-200 break-words text-left list-disc -mr-3">
               <li>{text}</li>
             </ul>
+            <button
+            onClick={deleteTodo}
+            >Delete</button>
           </div>
         );
       }}

@@ -3,9 +3,9 @@ import { Droppable } from 'react-beautiful-dnd';
 import Todo from './Todo.jsx';
 import Modal from './Modal.jsx';
 import axios from 'axios';
-import { io } from 'socket.io-client';
+// import { io } from 'socket.io-client';
 
-const Column = ({ columns, setColumns, colName, droppableId, column }) => {
+const Column = ({ columns, setColumns, colName, droppableId, column, getTodos }) => {
   const [newTodo, setNewTodo] = useState({
     title: '',
     text: '',
@@ -34,19 +34,19 @@ const Column = ({ columns, setColumns, colName, droppableId, column }) => {
     }));
   };
 
-  const socket = io('http://localhost:3000');
+  // const socket = io('http://localhost:3000');
 
-  useEffect(() => {
-    socket.on('newTodo', (task) => {
-      setColumns((prev) => ({
-        ...prev,
-        tasks: {
-          ...prev.tasks,
-          items: [...prev.tasks.items, task],
-        },
-      }));
-    });
-  }, [columns.tasks.items]);
+  // useEffect(() => {
+  //   socket.on('newTodo', (task) => {
+  //     setColumns((prev) => ({
+  //       ...prev,
+  //       tasks: {
+  //         ...prev.tasks,
+  //         items: [...prev.tasks.items, task],
+  //       },
+  //     }));
+  //   });
+  // }, [columns.tasks.items]);
 
   const handleSubmit = async (e) => {
     try {
@@ -64,9 +64,10 @@ const Column = ({ columns, setColumns, colName, droppableId, column }) => {
       //   },
       // }));
       // axiosPost();
-      socket.emit('createTask', response.data)
+      // socket.emit('createTask', response.data)
       setNewTodo((todo) => ({ ...todo, title: '', text: '' }));
-
+      handleCloseModal();        //CLOSE NEW TODO MODAL
+      getTodos();                //REFRESH                      
       // const populate = await axios.get('/api/tasks')
       // setColumns((prev) => ({
       //   ...prev,
@@ -82,12 +83,12 @@ const Column = ({ columns, setColumns, colName, droppableId, column }) => {
 
   const handleTodoTitle = (e) => {
     setNewTodo((todo) => ({ ...todo, title: e.target.value }));
-    console.log(newTodo.title);
+    // console.log(newTodo.title);
   };
 
   const handleTodoText = (e) => {
     setNewTodo((todo) => ({ ...todo, text: e.target.value }));
-    console.log(newTodo.text);
+    // console.log(newTodo.text);
   };
 
   return (
@@ -117,6 +118,7 @@ const Column = ({ columns, setColumns, colName, droppableId, column }) => {
                   handleTodoTitle={handleTodoTitle}
                   handleTodoText={handleTodoText}
                   handleSubmit={handleSubmit}
+                  getTodos={getTodos}
                 />
               )}
             </div>
@@ -128,6 +130,7 @@ const Column = ({ columns, setColumns, colName, droppableId, column }) => {
                   index={index}
                   title={item.title}
                   text={item.text}
+                  getTodos={getTodos}
                 />
               );
             })}
