@@ -68,9 +68,11 @@ usersController.createUser = (req,res,next) => {
 
     // INSERT INTO users ( firstName,lastName, password, userRole, email) VALUES ( 'Roberto', 'Meloni', '1234', 'backend', 'myessmail@google');
     console.log(req.body)
+
     const { firstName, lastName, password, userRole, email } = req.body
     const text = `INSERT INTO users (firstName, lastName, password, userRole, email) VALUES ($1, $2, $3, $4, $5) RETURNING *;`
     const values = [ firstName, lastName, password, userRole, email]
+
     db.query(text, values)
     .then(data => {
         console.log(data.rows)
@@ -94,9 +96,10 @@ usersController.deleteUser = (req,res,next) => {
 //UPDATE ONE USER CONTROLLER ---> not working yet
 usersController.updateUser = (req,res,next) => {
     console.log(req.body)
+    console.log(req.params.id)
      const { firstName, lastName, password, userRole, email } = req.body
-    const text = `UPDATE users SET firstName = $1, lastName = $2, password = $3, userRole = $4, email=$5`
-    const values = [ firstName, lastName, password, userRole, email]
+    const text = `UPDATE users SET firstName = '${firstName}', lastName = '${lastName}', password = '${password}', userRole = '${userRole}', email= '${email}' WHERE id = ${req.params.id}`
+    //const values = [ firstName, lastName, password, userRole, email]
     db.query(text, values)
     .then(data => {
         console.log(data.rows)
